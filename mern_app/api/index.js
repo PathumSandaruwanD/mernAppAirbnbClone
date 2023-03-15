@@ -2,6 +2,10 @@
 const express = require('express');
 const app = express();
 const port = 4000;
+const cors = require('cors');
+
+// use cors
+
 
 // make a route
 app.get('/', (req, res) => {
