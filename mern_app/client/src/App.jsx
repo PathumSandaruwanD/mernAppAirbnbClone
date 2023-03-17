@@ -8,6 +8,8 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 
 
+axios.defaults.baseURL ="http://localhost:4000"
+
 function App() {
 
 
