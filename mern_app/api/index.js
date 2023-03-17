@@ -1,11 +1,12 @@
-//make a backend to run on port 4000 and connect front end on http://127.0.0.1:5173/ using cors
-
 const express = require('express');
 const cors = require('cors');
 const { default: mongoose } = require('mongoose');
 require('dotenv').config();
 const app = express();
 const port = 4000;
+//importing modles
+
+import User from './Models/users.js';
 
 //json parser
 app.use(express.json());
@@ -18,7 +19,14 @@ app.use(cors((
 //end of the code block
 
 //CONNECT TO MONGOdb
-mongoose.connect(process.env.MONGO_URL)
+mongoose.connect(process.env.MONGO_URL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  }).then(() => {
+    console.log("Connected to MongoDB successfully!");
+  }).catch((error) => {
+    console.log("Error connecting to MongoDB: ", error);
+  });
 
 //send hello world to check server is working
 app.get('/', (req, res) => {
@@ -34,6 +42,12 @@ app.get('/test', (req, res) => {
 //send data from 
 app.post('/register',(req,res)=>{
     const {name,email,password}=req.body;
+    User.create({
+        name,
+        email,
+        password
+    })
+
     res.json({name,email,password});
 })
 
