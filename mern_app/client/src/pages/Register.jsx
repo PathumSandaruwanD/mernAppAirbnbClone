@@ -8,7 +8,7 @@ const Register = () => {
   const [password, setPassword] = useState("");
   function registerUser(ev){
     ev.preventDefault();
-      axios.get('http://loaclahost:4000/test');
+      axios.get('http://localhost:4000/test');
   }
 
   return (
