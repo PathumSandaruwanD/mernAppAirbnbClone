@@ -1,11 +1,13 @@
 import axios from 'axios';
 import React from 'react'
 import { useState } from 'react';
-import { Link } from 'react-router-dom'
+import { Link, Navigate } from 'react-router-dom'
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [redirect,setRedirect]= useState(false);
+
   async function Login(ev) {
     ev.preventDefault();
     try {
@@ -14,9 +16,17 @@ const Login = () => {
         password,
       });
       alert("Login Sucessfull");
+      //redurecting to homepage
+      setRedirect(true);
     } catch (err) {
       alert("Login Failed");
     }
+  }
+
+
+  //redirecting to the home
+  if(redirect){
+    return <Navigate to={'/'} />
   }
 
   return (

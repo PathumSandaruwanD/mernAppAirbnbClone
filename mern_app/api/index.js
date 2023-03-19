@@ -2,9 +2,12 @@ const express = require('express');
 const cors = require('cors');
 const { default: mongoose } = require('mongoose');
 const bcrypt = require('bcryptjs');
+const jwt =require('jsonwebtoken');
 require('dotenv').config();
 const app = express();
 const port = 4000;
+
+const jwtSecret = '54q7328ehagvxzx/.?foe[o';
 
 //importing models
 const User = require('./Models/users.js');
@@ -66,8 +69,10 @@ app.post('/login', async (req, res) => {
             const passwordCheck = bcrypt.compareSync(password, userDoc.password);
             if (passwordCheck) {
                 //adding a cookie
-                
-                res.cookie("token",'').json('password ok')
+                jwt.sign({email:userDoc.email,id:userDoc._id},jwtSecret,{},(err,token)=>{
+                    if(err) throw err;
+                    res.cookie("token",token).json('password ok')
+                })
             } else {
                 res.status(422).json('password not ok')
             }
