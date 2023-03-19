@@ -42,7 +42,7 @@ app.get('/test', (req, res) => {
 app.post('/register', async (req, res) => {
     const { name, email, password } = req.body;
     const hashedPassword = await bcrypt.hash(password, 10);
-   
+
     try {
         const userDoc = User.create({
             name,
@@ -54,6 +54,30 @@ app.post('/register', async (req, res) => {
         res.status(422).json(e);
     }
 });
+
+//login endpoint
+app.post('/login', async (req, res) => {
+    const { email, password } = req.body;
+    const userDoc = await User.findOne({ email: email })
+    try {
+        //check emai is exist
+        if (userDoc) {
+            //check password
+            const passwordCheck = bcrypt.compareSync(password, userDoc.password);
+            if (passwordCheck) {
+                //adding a cookie
+                
+                res.cookie("token",'').json('password ok')
+            } else {
+                res.status(422).json('password not ok')
+            }
+        } else {
+            res.json('not found')
+        }
+    } catch (error) {
+
+    }
+})
 
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`);
