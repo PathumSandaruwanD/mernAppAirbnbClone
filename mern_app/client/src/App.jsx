@@ -1,7 +1,7 @@
 import axios from "axios";
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-import { userContextProvider } from "./Context";
+import { UserContextProvider } from "./UserContext";
 import Layout from "./Layout";
 import LandingPage from "./pages/LandingPage";
 import Login from "./pages/Login";
@@ -17,7 +17,7 @@ function App() {
 
   return (
     <div>
-      <userContextProvider>
+      <UserContextProvider>
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route path="/" element={<LandingPage />} />
@@ -25,7 +25,7 @@ function App() {
           <Route path="/register" element={<Register />} />
         </Route>
       </Routes>
-      </userContextProvider>
+      </UserContextProvider>
     </div>
   )
 }
