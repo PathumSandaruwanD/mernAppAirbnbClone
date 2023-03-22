@@ -16,7 +16,7 @@ const Login = () => {
         email,
         password,
       });
-      setUser(userInfo);
+      setUser(userInfo.data);
       alert("Login Sucessfull");
       //redurecting to homepage
       setRedirect(true);
