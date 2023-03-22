@@ -3,6 +3,7 @@ const cors = require('cors');
 const { default: mongoose } = require('mongoose');
 const bcrypt = require('bcryptjs');
 const jwt =require('jsonwebtoken');
+const cookieParser = require('cookie-parser')
 require('dotenv').config();
 const app = express();
 const port = 4000;
@@ -14,12 +15,15 @@ const User = require('./Models/users.js');
 
 //json parser
 app.use(express.json());
-
 //middleware
 app.use(cors({
     origin: 'http://127.0.0.1:5173',
     credentials: true
 }));
+//for read cookies
+app.use(cookieParser());
+
+
 
 //CONNECT TO MONGOdb
 mongoose.connect(process.env.MONGO_URL, {
@@ -82,6 +86,19 @@ app.post('/login', async (req, res) => {
     } catch (error) {
 
     }
+})
+
+app.use('/profile',(req,res)=>{
+    const{token}=req.cookies;
+    if (token) {
+        jwt.verify(token, jwtSecret,{},(err,user)=>{
+            if(err) throw err;
+            res.json(user);
+        })
+    }else{
+        res.json(null)
+    }
+    res.json('token')
 })
 
 app.listen(port, () => {
